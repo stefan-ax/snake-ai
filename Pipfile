@@ -1,0 +1,22 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[scripts]
+serve = "uvicorn main:app"
+
+[dev-packages]
+jupyterlab = "*"
+ipywidgets = "*"
+
+[packages]
+fastapi = "*"
+tensorflow = { path="C:/Users/obada/.mlibs/tensorflow_gpu-2.3.0-cp38-cp38-win_amd64.whl" }
+uvicorn = "*"
+keras = "*"
+aiofiles = "*"
+jinja2 = "*"
+
+[requires]
+python_version = "3.8"
