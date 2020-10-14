@@ -2,10 +2,8 @@
 
 <html>
 <header>
-    <link rel="stylesheet" href="{{url_for('game', filename='css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="css/main.css">
-
-
+    <link rel="stylesheet" href="{{url_for('game', path='css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('game', path='css/main.css')}}">
 </header>
 
 <body class="container">
@@ -23,9 +21,7 @@
 
 </div>
 
-
-
 </body>
 
-<script src="index.js"></script>
+<script src="{{url_for('game', path='index.js')}}"></script>
 </html>
