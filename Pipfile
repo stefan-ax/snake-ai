@@ -9,6 +9,7 @@ serve = "uvicorn main:app"
 [dev-packages]
 jupyterlab = "*"
 ipywidgets = "*"
+seaborn = "*"
 
 [packages]
 fastapi = "*"
