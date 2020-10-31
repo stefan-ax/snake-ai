@@ -5,6 +5,7 @@ verify_ssl = true
 
 [scripts]
 serve = "uvicorn main:app"
+train = "python train.py"
 
 [dev-packages]
 jupyterlab = "*"
@@ -18,6 +19,7 @@ uvicorn = "*"
 keras = "*"
 aiofiles = "*"
 jinja2 = "*"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.8"
