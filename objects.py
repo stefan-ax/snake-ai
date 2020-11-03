@@ -85,7 +85,9 @@ class Table:
         values = np.array(values)
         
         # Convert to probability vector
-        result[values==0] = 1 / np.sum(values == 0)
+        values_sum = np.sum(values == 0)
+        if values_sum>0:
+            result[values==0] = 1 / values_sum
         
         return result
 
@@ -130,11 +132,10 @@ class Snake:
             self.body = np.vstack([new_head, self.body])
             
             self.table.add_food()
+            self.update_snake()
         else:
             self.body = np.vstack([new_head, self.body[:-1]])
-        
-        
-        self.update_snake()
+            self.update_snake()
         
         if return_state:
             return new_state
@@ -143,7 +144,7 @@ class Snake:
         table_shape = self.table.table.shape
         
         # If out the table
-        if (head[0] < 0) or (head[0] == table_shape[0]) or (head[1] < 0) or (head[1] == table_shape[0]) or numpy_in_columns(head, self.body):
+        if (head[0] < 0) or (head[0] == table_shape[0]) or (head[1] < 0) or (head[1] == table_shape[0]) or (self.table.table[head[0], head[1]] == 1).all():
             return -1 # Lost game
         
         food = np.argwhere(self.table.table == 2)[0]
@@ -168,7 +169,7 @@ class Snake:
         table_shape = self.table.table.shape
         
         # If out the table
-        if (new_head[0] < 0) or (new_head[0] == table_shape[0]) or (new_head[1] < 0) or (new_head[1] == table_shape[0]) or numpy_in_columns(new_head, self.body):
+        if (new_head[0] < 0) or (new_head[0] == table_shape[0]) or (new_head[1] < 0) or (new_head[1] == table_shape[0]) or (self.table.table[new_head[0], new_head[1]] == 1).all():
             return -1 # Lost game
         
         food = np.argwhere(self.table.table == 2)[0]

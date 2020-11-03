@@ -1,5 +1,4 @@
 # Imports
-
 import tensorflow as tf
 import keras
 import keras.backend as K
@@ -8,6 +7,7 @@ from keras.models import Sequential
 from keras.callbacks import ModelCheckpoint
 from glob import glob
 from objects import Table, Food, Snake
+from utils import TrainFeeder
 import pickle as pkl
 import os
 import random
@@ -44,47 +44,6 @@ logging.info(f"Loaded {len(init_games)} games")
 
 
 # Train Feeder
-class TrainFeeder:
-    def __init__(self, init_games, n=BATCH_SIZE):
-        # assert len(init_games) >= n
-        self.init_games = init_games
-        self.games = random.choices(self.init_games, k=n)
-    
-    @property
-    def feed(self):
-        i=-1
-        while True:
-            
-            vectors = [game.table.ravel().reshape(1, -1) for game in self.games]
-            for idx, vector in enumerate(vectors):
-                yield vector, self.games[idx].move_quality().reshape(1, -1), np.array(idx)
-
-                    
-    def apply_moves(self, directions: list):
-        results = []
-        for idx, direction in enumerate(directions):
-            result = self.games[idx].snake.move(direction, return_state=True)
-            results.append(result)
-            
-            if result == -1:
-                # Reset the game
-                self.games[idx] = random.choice(self.init_games)
-            
-        return np.array(results)
-    
-    def apply_move(self, direction, idx):
-        result = self.games[idx].snake.move(direction, return_state=True)
-        
-        if result == -1:
-            # Reset the game
-            self.games[idx] = random.choice(self.init_games)
-            
-        return result
-        
-    def length_mean(self):
-        length = [np.sum(game.table[game.table==1])+1 for game in self.games]
-        return np.mean(length)
-    
 feeder = TrainFeeder(init_games=init_games)
 
 class LoggingCallback(keras.callbacks.Callback):
