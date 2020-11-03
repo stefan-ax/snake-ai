@@ -14,7 +14,7 @@ seaborn = "*"
 
 [packages]
 fastapi = "*"
-tensorflow = { path="C:/Users/obada/.mlibs/tensorflow_gpu-2.3.0-cp38-cp38-win_amd64.whl" }
+tensorflow = "*"
 uvicorn = "*"
 keras = "*"
 aiofiles = "*"

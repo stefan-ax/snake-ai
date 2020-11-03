@@ -82,7 +82,7 @@ class TrainFeeder:
         return result
         
     def length_mean(self):
-        length = [np.sum(game.table[game.table==1]) for game in self.games]
+        length = [np.sum(game.table[game.table==1])+1 for game in self.games]
         return np.mean(length)
     
 feeder = TrainFeeder(init_games=init_games)
@@ -102,6 +102,7 @@ history = snakemodel.fit(x=feeder.feed,
     verbose=1,
     callbacks=[ModelCheckpoint("models/epoch_{epoch}.h5", verbose=False), LoggingCallback()],
     steps_per_epoch=STEPS_PER_EPOCH,
+    workers=8
 )
 
 with open("models/history.pkl", "wb") as fout:
