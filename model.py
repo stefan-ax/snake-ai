@@ -36,7 +36,7 @@ class SnakeModel(keras.Sequential):
         # Compute the metric score here
         score_metric.update_state(loss)
         
-        return {"mean_score": score_metric.result()}#, "mean_length": feeder.length_mean()}
+        return {"mean_score": score_metric.result()}
     
     @property
     def metrics(self):
@@ -47,3 +47,4 @@ snakemodel.add(Input(shape=(DIM, )))
 snakemodel.add(Dense(DIM, activation=None))
 snakemodel.add(Dense(16, activation=None))
 snakemodel.add(Dense(4, activation="softmax"))
+snakemodel.compile(optimizer="adam", run_eagerly=True)

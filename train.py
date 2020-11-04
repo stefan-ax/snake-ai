@@ -55,13 +55,12 @@ class LoggingCallback(keras.callbacks.Callback):
 logging.info("Starting training.")
 from model import snakemodel
 snakemodel.feeder = feeder
-snakemodel.compile(optimizer="adam", run_eagerly=True)
 history = snakemodel.fit(x=feeder.feed,
     epochs=EPOCHS,
     verbose=1,
     callbacks=[ModelCheckpoint("models/epoch_{epoch}.h5", verbose=False), LoggingCallback()],
     steps_per_epoch=STEPS_PER_EPOCH,
-    workers=8
+#    workers=8
 )
 
 with open("models/history.pkl", "wb") as fout:
