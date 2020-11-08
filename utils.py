@@ -1,6 +1,7 @@
 import random
 import numpy as np
 import os
+import copy
 
 # Variables
 VIRTUAL_HEIGHT = int(os.environ["VIRTUAL_HEIGHT"])
@@ -32,20 +33,27 @@ class TrainFeeder:
             
             if result == -1:
                 # Reset the game
-                self.games[idx] = random.choice(self.init_games)
+                self.games[idx] = copy.deepcopy(random.choice(self.init_games))
             
         return np.array(results)
     
     def apply_move(self, direction, idx):
         result = self.games[idx].snake.move(direction, return_state=True)
         
-        if (self.games[idx].move_quality() == 0).all():
+        if (self.games[idx].move_quality() == 0).all() or self.games[idx].snake.is_dead:
+#             print(f"Lost in this situation: \t {self.games[idx]}")
+#             print(f"Had age: {self.games[idx].snake.age}")
             # Reset the game
-            self.games[idx] = random.choice(self.init_games)
-            
+            self.games[idx] = copy.deepcopy(random.choice(self.init_games))
+        
         return result
     
     def length_mean(self):
         # Sum the body + head of the snake. Body is annotated with 1 and head with 3
         length = [np.sum(game.table[game.table==1])+1 for game in self.games]
         return np.mean(length)
+    
+    def age_mean(self):
+        # Sum the body + head of the snake. Body is annotated with 1 and head with 3
+        ages = [game.snake.age for game in self.games]
+        return np.mean(ages)

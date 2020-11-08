@@ -34,7 +34,7 @@ class SnakeModel(keras.Sequential):
         self.optimizer.apply_gradients(zip(gradients, trainable_vars))
         
         # Compute the metric score here
-        score_metric.update_state(loss)
+        score_metric.update_state(score)
         
         return {"mean_score": score_metric.result()}
     
